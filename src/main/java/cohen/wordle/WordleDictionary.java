@@ -24,7 +24,7 @@ public class WordleDictionary
         {
             String[] entry = currentLine.split(" ", 2);
             words.add(entry[0]);
-            if(entry.length == 2)
+            if (entry.length == 2)
             {
                 definitions.add(entry[1]); //TODO: Fix this bug!
             }
@@ -40,6 +40,7 @@ public class WordleDictionary
     {
         return words;
     }
+
     public List<String> getDefinitions()
     {
         return definitions;
