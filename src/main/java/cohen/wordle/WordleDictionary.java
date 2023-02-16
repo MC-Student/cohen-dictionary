@@ -48,6 +48,11 @@ public class WordleDictionary
 
     public String getDefinition(String word)
     {
-        return definitions.get(words.indexOf(word.toUpperCase()));
+        int wordLocation = words.indexOf(word.toUpperCase());
+        if (wordLocation == -1)
+        {
+            return null;
+        }
+        return definitions.get(wordLocation);
     }
 }
