@@ -26,11 +26,11 @@ public class WordleDictionary
             words.add(entry[0]);
             if (entry.length == 2)
             {
-                definitions.add(entry[1]); //TODO: Fix this bug!
+                definitions.add(entry[1]);
             }
             else
             {
-                definitions.add(null);
+                definitions.add("");
             }
 
         }
