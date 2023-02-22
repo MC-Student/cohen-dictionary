@@ -61,10 +61,6 @@ public class WordleGame
                         results[i] = CharStatus.WrongPlace;
                     }
                 }
-                /*else
-                {
-                    results[i] = CharStatus.NotFound;
-                }*/
             }
         }
 
