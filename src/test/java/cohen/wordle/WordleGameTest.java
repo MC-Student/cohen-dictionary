@@ -22,7 +22,7 @@ class WordleGameTest
         CharStatus[] result = wordle.guess(word);
 
         //then
-        assertEquals(word.length(), 5);
+        assertEquals(5, word.length());
         assertArrayEquals(correct, result);
     }
 

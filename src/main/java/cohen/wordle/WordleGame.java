@@ -1,6 +1,7 @@
 package cohen.wordle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -8,24 +9,32 @@ public class WordleGame
 {
     private final WordleDictionary dictionary = new WordleDictionary();
     private final Random random = new Random();
-    String actualWord;
+    private String actualWord;
+    private ArrayList<String> chooseFrom;
 
     public WordleGame() throws IOException
     {
-        do
+        chooseFrom = new ArrayList<>();
+
+        for (String word : dictionary.words)
         {
-            int picked = random.nextInt(167963);
-            this.actualWord = dictionary.words.get(picked);
+            if (word.length() == 5)
+            {
+                chooseFrom.add(word);
+            }
         }
-        while(actualWord.length() != 5);
+
+        int picked = random.nextInt(chooseFrom.size() - 1);
+        this.actualWord = chooseFrom.get(picked);
+
     }
 
-    public String getActualWord ()
+    public String getActualWord()
     {
         return actualWord;
     }
 
-    public CharStatus[] guess (String guess)
+    public CharStatus[] guess(String guess)
     {
         guess = guess.toUpperCase();
         CharStatus[] results = new CharStatus[]
@@ -37,13 +46,13 @@ public class WordleGame
                         CharStatus.NotFound,
                 };
 
-        if (dictionary.words.contains(guess) && guess.length() == 5)
+        if (guess.length() == 5)
         {
             for (int i = 0; i < guess.length(); i++)
             {
-                if(actualWord.contains(String.valueOf(guess.charAt(i))))
+                if (actualWord.contains(String.valueOf(guess.charAt(i))))
                 {
-                    if(guess.charAt(i) == actualWord.charAt(i))
+                    if (guess.charAt(i) == actualWord.charAt(i))
                     {
                         results[i] = CharStatus.Correct;
                     }
@@ -62,7 +71,6 @@ public class WordleGame
         else
         {
             System.out.println("Guess Invalid");
-            return null;
         }
 
         System.out.println(Arrays.toString(results));
