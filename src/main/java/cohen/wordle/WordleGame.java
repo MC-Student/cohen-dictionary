@@ -1,22 +1,20 @@
 package cohen.wordle;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class WordleGame
 {
-    private final WordleDictionary dictionary = new WordleDictionary();
     private final Random random = new Random();
     private String actualWord;
     private ArrayList<String> chooseFrom;
 
-    public WordleGame() throws IOException
+    public WordleGame(WordleDictionary dictionary)
     {
         chooseFrom = new ArrayList<>();
 
-        for (String word : dictionary.words)
+        for (String word : dictionary.getList())
         {
             if (word.length() == 5)
             {
@@ -24,7 +22,7 @@ public class WordleGame
             }
         }
 
-        int picked = random.nextInt(chooseFrom.size() - 1);
+        int picked = random.nextInt(chooseFrom.size());
         this.actualWord = chooseFrom.get(picked);
 
     }
