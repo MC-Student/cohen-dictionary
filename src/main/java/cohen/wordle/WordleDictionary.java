@@ -1,12 +1,16 @@
 package cohen.wordle;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WordleDictionary
 {
-    public final ArrayList<String> words;
-    public final ArrayList<String> definitions;
+    private final ArrayList<String> words;
+    private final ArrayList<String> definitions;
 
     public WordleDictionary() throws IOException
     {

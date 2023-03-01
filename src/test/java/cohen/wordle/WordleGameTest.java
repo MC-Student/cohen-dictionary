@@ -1,29 +1,86 @@
 package cohen.wordle;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static cohen.wordle.CharStatus.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.mockito.Mockito.doReturn;
 
 class WordleGameTest
 {
     @Test
-    void guess() throws IOException
+    void guessCorrect()
     {
         //given
-        WordleGame wordle = new WordleGame();
-
-        String word = wordle.getActualWord();
+        WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
+        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        doReturn(words).when(dictionary).getList();
+        WordleGame wordle = new WordleGame(dictionary);
 
         //when
-        CharStatus[] correct = {CharStatus.Correct, CharStatus.Correct, CharStatus.Correct, CharStatus.Correct, CharStatus.Correct};
+        CharStatus[] result = wordle.guess("APPLE");
 
-        CharStatus[] result = wordle.guess(word);
 
         //then
-        assertEquals(5, word.length());
+        CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
         assertArrayEquals(correct, result);
     }
 
+    @Test
+    void guessIncorrect()
+    {
+        //given
+        WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
+        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        doReturn(words).when(dictionary).getList();
+        WordleGame wordle = new WordleGame(dictionary);
+
+        //when
+        CharStatus[] result = wordle.guess("SHOWS");
+
+
+        //then
+        CharStatus[] correct = {NotFound, NotFound, NotFound, NotFound, NotFound};
+        assertArrayEquals(correct, result);
+    }
+
+    @Test
+    void guessPartial()
+    {
+        //given
+        WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
+        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        doReturn(words).when(dictionary).getList();
+        WordleGame wordle = new WordleGame(dictionary);
+
+        //when
+        CharStatus[] result = wordle.guess("shone");
+
+
+        //then
+        CharStatus[] correct = {NotFound, NotFound, NotFound, NotFound, Correct};
+        assertArrayEquals(correct, result);
+    }
+
+    @Test
+    void guessWrongPlace()
+    {
+        //given
+        WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
+        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        doReturn(words).when(dictionary).getList();
+        WordleGame wordle = new WordleGame(dictionary);
+
+        //when
+        CharStatus[] result = wordle.guess("tiles");
+
+
+        //then
+        CharStatus[] correct = {NotFound, NotFound, WrongPlace, WrongPlace, NotFound};
+        assertArrayEquals(correct, result);
+    }
 }
