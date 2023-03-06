@@ -6,7 +6,9 @@ public class WordleGameMain
 {
     public static void main(String[] args) throws IOException
     {
-        WordleGameFrame frame = new WordleGameFrame();
+        WordleDictionary dictionary = new WordleDictionary();
+        WordleGame wordleGame = new WordleGame(dictionary);
+        WordleGameFrame frame = new WordleGameFrame(wordleGame, dictionary);
         frame.setVisible(true);
     }
 }
