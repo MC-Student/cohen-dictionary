@@ -15,7 +15,9 @@ public class WordleController
     private JButton[] keyboardRow3;
     private int nextEmpty;
 
-    public WordleController(WordleGame wordleGame, WordleDictionary dictionary, JLabel[][] letters, JButton[] keyboardRow1, JButton[] keyboardRow2, JButton[] keyboardRow3, JButton enter, JButton backspace, int next)
+    public WordleController(WordleGame wordleGame, WordleDictionary dictionary, JLabel[][] letters,
+                            JButton[] keyboardRow1, JButton[] keyboardRow2, JButton[] keyboardRow3,
+                            JButton enter, JButton backspace, int next)
     {
         this.wordleGame = wordleGame;
         this.dictionary = dictionary;

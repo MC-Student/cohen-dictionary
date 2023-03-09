@@ -30,9 +30,8 @@ public class WordleGameFrame extends JFrame
 
     public WordleGameFrame(WordleGame wordleGame, WordleDictionary dictionary) throws IOException
     {
-        controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1, keyboardRow2, keyboardRow3, enter, backspace, nextEmpty);
-
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1, keyboardRow2,
+                keyboardRow3, enter, backspace, nextEmpty);
 
         JPanel centerPanel = new JPanel(new GridLayout(6, 5));
 
@@ -48,15 +47,15 @@ public class WordleGameFrame extends JFrame
             }
         }
 
-        List<Character> keys1 = List.of(new Character[]{'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'});
-        List<Character> keys2 = List.of(new Character[]{'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'});
+        List<Character> keys1 = List.of(new Character[]{'Q', 'W', 'E', 'R', 'T', 'Y',
+                'U', 'I', 'O', 'P'});
+        List<Character> keys2 = List.of(new Character[]{'A', 'S', 'D', 'F', 'G', 'H',
+                'J', 'K', 'L'});
         List<Character> keys3 = List.of(new Character[]{'Z', 'X', 'C', 'V', 'B', 'N', 'M'});
 
-        JPanel keyboard = new JPanel(new GridLayout(3, 1));
-        JPanel kRow1 = new JPanel(new GridLayout(1, 10));
-        JPanel kRow2 = new JPanel(new GridLayout(1, 9));
-        JPanel kRow3 = new JPanel(new GridLayout(1, 10));
-
+        JPanel kbRow1 = new JPanel(new GridLayout(1, 10));
+        JPanel kbRow2 = new JPanel(new GridLayout(1, 9));
+        JPanel kbRow3 = new JPanel(new GridLayout(1, 10));
 
         for (int i = 0; i < keyboardRow1.length; i++)
         {
@@ -64,7 +63,7 @@ public class WordleGameFrame extends JFrame
             key.setHorizontalAlignment(JButton.CENTER);
             key.addActionListener(e -> pressedKey(key));
             keyboardRow1[i] = key;
-            kRow1.add(keyboardRow1[i]);
+            kbRow1.add(keyboardRow1[i]);
         }
 
         for (int i = 0; i < keyboardRow2.length; i++)
@@ -73,14 +72,14 @@ public class WordleGameFrame extends JFrame
             key.setHorizontalAlignment(JButton.CENTER);
             key.addActionListener(e -> pressedKey(key));
             keyboardRow2[i] = key;
-            kRow2.add(keyboardRow2[i]);
+            kbRow2.add(keyboardRow2[i]);
         }
 
         backspace = new JButton("Back");
         backspace.setHorizontalAlignment(JButton.CENTER);
         backspace.addActionListener(e -> controller.backspace());
         keyboardRow3[0] = backspace;
-        kRow3.add(keyboardRow3[0]);
+        kbRow3.add(keyboardRow3[0]);
 
         for (int i = 1; i < keyboardRow3.length - 3; i++)
         {
@@ -88,18 +87,22 @@ public class WordleGameFrame extends JFrame
             key.setHorizontalAlignment(JButton.CENTER);
             key.addActionListener(e -> pressedKey(key));
             keyboardRow3[i] = key;
-            kRow3.add(keyboardRow3[i]);
+            kbRow3.add(keyboardRow3[i]);
         }
 
         enter = new JButton("Enter");
         enter.setHorizontalAlignment(JButton.CENTER);
         enter.addActionListener(e -> controller.enterGuess());
         keyboardRow3[keyboardRow3.length - 1] = enter;
-        kRow3.add(keyboardRow3[keyboardRow3.length - 1]);
+        kbRow3.add(keyboardRow3[keyboardRow3.length - 1]);
 
-        keyboard.add(kRow1);
-        keyboard.add(kRow2);
-        keyboard.add(kRow3);
+        JPanel keyboard = new JPanel(new GridLayout(3, 1));
+
+        keyboard.add(kbRow1);
+        keyboard.add(kbRow2);
+        keyboard.add(kbRow3);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
         mainPanel.add(keyboard, BorderLayout.SOUTH);
