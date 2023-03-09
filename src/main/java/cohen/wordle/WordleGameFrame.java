@@ -54,8 +54,6 @@ public class WordleGameFrame extends JFrame
         List<Character> keys3 = List.of(new Character[]{'Z', 'X', 'C', 'V', 'B', 'N', 'M'});
 
         JPanel kbRow1 = new JPanel(new GridLayout(1, 10));
-        JPanel kbRow2 = new JPanel(new GridLayout(1, 9));
-        JPanel kbRow3 = new JPanel(new GridLayout(1, 10));
 
         for (int i = 0; i < keyboardRow1.length; i++)
         {
@@ -66,6 +64,8 @@ public class WordleGameFrame extends JFrame
             kbRow1.add(keyboardRow1[i]);
         }
 
+        JPanel kbRow2 = new JPanel(new GridLayout(1, 9));
+
         for (int i = 0; i < keyboardRow2.length; i++)
         {
             final JButton key = new JButton(String.valueOf(keys2.get(i)));
@@ -74,6 +74,8 @@ public class WordleGameFrame extends JFrame
             keyboardRow2[i] = key;
             kbRow2.add(keyboardRow2[i]);
         }
+
+        JPanel kbRow3 = new JPanel(new GridLayout(1, 10));
 
         backspace = new JButton("Back");
         backspace.setHorizontalAlignment(JButton.CENTER);
