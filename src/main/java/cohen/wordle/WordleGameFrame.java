@@ -30,8 +30,8 @@ public class WordleGameFrame extends JFrame
 
     public WordleGameFrame(WordleGame wordleGame, WordleDictionary dictionary) throws IOException
     {
-        controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1, keyboardRow2,
-                keyboardRow3, enter, backspace, nextEmpty);
+        controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1,
+                keyboardRow2, keyboardRow3, enter, backspace, nextEmpty);
 
         JPanel centerPanel = new JPanel(new GridLayout(6, 5));
 
