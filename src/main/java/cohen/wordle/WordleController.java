@@ -41,7 +41,8 @@ public class WordleController
 
     public void addLetter(String letter)
     {
-        if ((fullWord(nextEmpty) && wordleGame.getGuesses() == nextEmpty / 5) || !fullWord(nextEmpty))
+        if ((fullWord(nextEmpty) && wordleGame.getGuesses() == nextEmpty / 5)
+                || !fullWord(nextEmpty))
         {
             int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
             letters[row][nextEmpty % 5].setText(letter.toUpperCase());
@@ -84,7 +85,8 @@ public class WordleController
 
     public void backspace()
     {
-        if ((fullWord(nextEmpty) && wordleGame.getGuesses() != nextEmpty / 5) || !fullWord(nextEmpty) && nextEmpty != 0)
+        if ((fullWord(nextEmpty) && wordleGame.getGuesses() != nextEmpty / 5)
+                || !fullWord(nextEmpty) && nextEmpty != 0)
         {
             int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
             letters[row][(nextEmpty - 1) % 5].setText("");

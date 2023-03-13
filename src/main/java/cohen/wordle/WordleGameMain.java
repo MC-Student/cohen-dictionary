@@ -15,7 +15,9 @@ public class WordleGameMain
         {
             if (wordleGame.getGuesses() == 6)
             {
-                String message = wordleGame.gameIsWon() ? "Congratulations, you won!" : "Maybe you will win next time...";
+                String message = wordleGame.gameIsWon()
+                        ? "Congratulations, you won!"
+                        : "Maybe you will win next time...";
                 JOptionPane.showMessageDialog(frame, "Game over! " + message);
                 frame.setVisible(false);
                 frame.dispose();
