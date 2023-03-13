@@ -3,8 +3,9 @@ package cohen.wordle;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static cohen.wordle.CharStatus.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -17,7 +18,7 @@ class WordleGameTest
     {
         //given
         WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
-        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        Set<String> words = new HashSet<>(List.of("APPLE"));
         doReturn(words).when(dictionary).getList();
         WordleGame wordle = new WordleGame(dictionary);
 
@@ -35,7 +36,7 @@ class WordleGameTest
     {
         //given
         WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
-        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        Set<String> words = new HashSet<>(List.of("APPLE"));
         doReturn(words).when(dictionary).getList();
         WordleGame wordle = new WordleGame(dictionary);
 
@@ -53,7 +54,7 @@ class WordleGameTest
     {
         //given
         WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
-        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        Set<String> words = new HashSet<>(List.of("APPLE"));
         doReturn(words).when(dictionary).getList();
         WordleGame wordle = new WordleGame(dictionary);
 
@@ -71,7 +72,7 @@ class WordleGameTest
     {
         //given
         WordleDictionary dictionary = Mockito.mock(WordleDictionary.class);
-        ArrayList<String> words = new ArrayList<>(List.of("APPLE"));
+        Set<String> words = new HashSet<>(List.of("APPLE"));
         doReturn(words).when(dictionary).getList();
         WordleGame wordle = new WordleGame(dictionary);
 
