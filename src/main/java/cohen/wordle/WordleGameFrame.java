@@ -7,31 +7,20 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.List;
 
-import static cohen.wordle.CharStatus.Correct;
-
 public class WordleGameFrame extends JFrame
 {
-    private final WordleGame round = new WordleGame(new WordleDictionary());
-    private final CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
-    int guesses = 0;
-
+    private final WordleController controller;
     private JLabel[][] letters = new JLabel[6][5];
     private JButton[] keyboardRow1 = new JButton[10];
     private JButton[] keyboardRow2 = new JButton[9];
     private JButton[] keyboardRow3 = new JButton[10];
-
     private JButton enter;
     private JButton backspace;
-
-    private int nextEmpty = 0;
-
-    private String theGuess;
-    private WordleController controller;
 
     public WordleGameFrame(WordleGame wordleGame, WordleDictionary dictionary) throws IOException
     {
         controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1,
-                keyboardRow2, keyboardRow3, enter, backspace, nextEmpty);
+                keyboardRow2, keyboardRow3, enter, backspace);
 
         JPanel centerPanel = new JPanel(new GridLayout(6, 5));
 
@@ -79,7 +68,7 @@ public class WordleGameFrame extends JFrame
 
         backspace = new JButton("Back");
         backspace.setHorizontalAlignment(JButton.CENTER);
-        backspace.addActionListener(e -> controller.backspace());
+        backspace.addActionListener(e -> back());
         keyboardRow3[0] = backspace;
         kbRow3.add(keyboardRow3[0]);
 
@@ -94,7 +83,7 @@ public class WordleGameFrame extends JFrame
 
         enter = new JButton("Enter");
         enter.setHorizontalAlignment(JButton.CENTER);
-        enter.addActionListener(e -> controller.enterGuess());
+        enter.addActionListener(e -> enter());
         keyboardRow3[keyboardRow3.length - 1] = enter;
         kbRow3.add(keyboardRow3[keyboardRow3.length - 1]);
 
@@ -114,6 +103,9 @@ public class WordleGameFrame extends JFrame
         setTitle("Wordle Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        setFocusable(true);
+        requestFocus();
+
         addKeyListener(new KeyListener()
         {
             @Override
@@ -121,18 +113,21 @@ public class WordleGameFrame extends JFrame
             {
                 char character = e.getKeyChar();
 
-                if (character == KeyEvent.VK_BACK_SPACE)
+                if (Character.isAlphabetic(character))
+                {
+                    controller.addLetter(String.valueOf(e.getKeyChar()));
+                    //requestFocus();
+                }
+                else if (character == KeyEvent.VK_BACK_SPACE)
                 {
                     controller.backspace();
+                    //requestFocus();
 
                 }
                 else if (character == KeyEvent.VK_ENTER)
                 {
                     controller.enterGuess();
-                }
-                else if (Character.isAlphabetic(character))
-                {
-                    controller.addLetter(String.valueOf(e.getKeyChar()));
+                    //requestFocus();
                 }
             }
 
@@ -151,13 +146,18 @@ public class WordleGameFrame extends JFrame
     public void pressedKey(JButton key)
     {
         controller.addLetter(key.getText());
-        /*revalidate();
-        repaint();*/
+        requestFocus();
     }
 
-    /*public void refresh()
+    public void enter()
     {
-        repaint();
-        revalidate();
-    }*/
+        controller.enterGuess();
+        requestFocus();
+    }
+
+    public void back()
+    {
+        controller.backspace();
+        requestFocus();
+    }
 }

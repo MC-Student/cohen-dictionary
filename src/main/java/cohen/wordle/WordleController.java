@@ -2,6 +2,7 @@ package cohen.wordle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class WordleController
 {
@@ -13,11 +14,11 @@ public class WordleController
     private JButton[] keyboardRow1;
     private JButton[] keyboardRow2;
     private JButton[] keyboardRow3;
-    private int nextEmpty;
+    private int nextEmpty = 0;
 
     public WordleController(WordleGame wordleGame, WordleDictionary dictionary, JLabel[][] letters,
                             JButton[] keyboardRow1, JButton[] keyboardRow2, JButton[] keyboardRow3,
-                            JButton enter, JButton backspace, int next)
+                            JButton enter, JButton backspace)
     {
         this.wordleGame = wordleGame;
         this.dictionary = dictionary;
@@ -27,7 +28,6 @@ public class WordleController
         this.keyboardRow3 = keyboardRow3;
         this.enter = enter;
         this.backspace = backspace;
-        this.nextEmpty = next;
     }
 
     /*2d array of jlabels
@@ -41,23 +41,26 @@ public class WordleController
 
     public void addLetter(String letter)
     {
-        if (nextEmpty % 5 != 0)
+        if ((fullWord(nextEmpty) && wordleGame.getGuesses() == nextEmpty / 5) || !fullWord(nextEmpty))
         {
-            letters[(int) Math.floor(nextEmpty / 5)][(int) (nextEmpty % 5)].setText(letter);
+            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
+            letters[row][nextEmpty % 5].setText(letter.toUpperCase());
             nextEmpty++;
         }
     }
 
     public void enterGuess()
     {
-        if (nextEmpty % 5 == 0)
+        if (fullWord(nextEmpty) && wordleGame.getGuesses() < nextEmpty / 5)
         {
-            int row = nextEmpty / 5;
+            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
             StringBuilder guess = new StringBuilder();
+
             for (int i = 0; i < 5; i++)
             {
                 guess.append(letters[row][i].getText());
             }
+
             String word = guess.toString();
             CharStatus[] results = wordleGame.guess(word);
 
@@ -81,10 +84,16 @@ public class WordleController
 
     public void backspace()
     {
-        if (nextEmpty % 5 != 0)
+        if ((fullWord(nextEmpty) && wordleGame.getGuesses() != nextEmpty / 5) || !fullWord(nextEmpty) && nextEmpty != 0)
         {
-            letters[(int) Math.floor((nextEmpty - 1) / 5)][(int) ((nextEmpty - 1) % 5)].setText("");
+            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
+            letters[row][(nextEmpty - 1) % 5].setText("");
             nextEmpty--;
         }
+    }
+
+    private boolean fullWord(int next)
+    {
+        return List.of(5, 10, 15, 20, 25, 30).contains(next);
     }
 }
