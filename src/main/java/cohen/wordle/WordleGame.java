@@ -72,7 +72,7 @@ public class WordleGame
 
         guesses++;
         System.out.println(Arrays.toString(results));
-        won = results == correct;
+        won = (Arrays.equals(results, correct));
         return results;
     }
 

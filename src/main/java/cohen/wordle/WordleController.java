@@ -43,7 +43,7 @@ public class WordleController
             String word = currentGuess.toString();
             CharStatus[] results = wordleGame.guess(word);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < results.length; i++)
             {
                 if (results[i] == CharStatus.NotFound)
                 {
