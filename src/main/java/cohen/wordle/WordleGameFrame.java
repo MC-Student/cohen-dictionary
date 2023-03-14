@@ -9,16 +9,11 @@ import java.util.List;
 public class WordleGameFrame extends JFrame
 {
     private final WordleController controller;
-    private JButton enter;
-    private JButton backspace;
-    private String message;
 
     public WordleGameFrame(WordleGame wordleGame)
     {
-        JButton[] keyboardRow1 = new JButton[10];
         JLabel[][] letters = new JLabel[6][5];
-        JButton[] keyboardRow2 = new JButton[9];
-        JButton[] keyboardRow3 = new JButton[10];
+
         controller = new WordleController(wordleGame, letters);
 
         JPanel centerPanel = new JPanel(new GridLayout(6, 5));
@@ -43,6 +38,8 @@ public class WordleGameFrame extends JFrame
 
         JPanel kbRow1 = new JPanel(new GridLayout(1, 10));
 
+        JButton[] keyboardRow1 = new JButton[10];
+
         for (int i = 0; i < keyboardRow1.length; i++)
         {
             final JButton key = new JButton(String.valueOf(keys1.get(i)));
@@ -53,6 +50,8 @@ public class WordleGameFrame extends JFrame
         }
 
         JPanel kbRow2 = new JPanel(new GridLayout(1, 9));
+
+        JButton[] keyboardRow2 = new JButton[9];
 
         for (int i = 0; i < keyboardRow2.length; i++)
         {
@@ -65,7 +64,9 @@ public class WordleGameFrame extends JFrame
 
         JPanel kbRow3 = new JPanel(new GridLayout(1, 10));
 
-        backspace = new JButton("Back");
+        JButton[] keyboardRow3 = new JButton[10];
+
+        JButton backspace = new JButton("Back");
         backspace.setHorizontalAlignment(JButton.CENTER);
         backspace.addActionListener(e -> back());
         keyboardRow3[0] = backspace;
@@ -80,7 +81,7 @@ public class WordleGameFrame extends JFrame
             kbRow3.add(keyboardRow3[i]);
         }
 
-        enter = new JButton("Enter");
+        JButton enter = new JButton("Enter");
         enter.setHorizontalAlignment(JButton.CENTER);
         enter.addActionListener(e -> enter());
         keyboardRow3[keyboardRow3.length - 1] = enter;
