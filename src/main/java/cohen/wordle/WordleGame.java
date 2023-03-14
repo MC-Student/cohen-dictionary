@@ -31,6 +31,7 @@ public class WordleGame
 
         int picked = random.nextInt(chooseFrom.size());
         this.actualWord = chooseFrom.get(picked);
+        System.out.println(actualWord);
 
     }
 
@@ -71,7 +72,7 @@ public class WordleGame
 
         guesses++;
         System.out.println(Arrays.toString(results));
-        won = guesses == 6 && results == correct;
+        won = results == correct;
         return results;
     }
 

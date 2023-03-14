@@ -4,23 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.List;
 
 public class WordleGameFrame extends JFrame
 {
     private final WordleController controller;
-    private JLabel[][] letters = new JLabel[6][5];
-    private JButton[] keyboardRow1 = new JButton[10];
-    private JButton[] keyboardRow2 = new JButton[9];
-    private JButton[] keyboardRow3 = new JButton[10];
     private JButton enter;
     private JButton backspace;
+    private String message;
 
-    public WordleGameFrame(WordleGame wordleGame, WordleDictionary dictionary) throws IOException
+    public WordleGameFrame(WordleGame wordleGame)
     {
-        controller = new WordleController(wordleGame, dictionary, letters, keyboardRow1,
-                keyboardRow2, keyboardRow3, enter, backspace);
+        JButton[] keyboardRow1 = new JButton[10];
+        JLabel[][] letters = new JLabel[6][5];
+        JButton[] keyboardRow2 = new JButton[9];
+        JButton[] keyboardRow3 = new JButton[10];
+        controller = new WordleController(wordleGame, letters);
 
         JPanel centerPanel = new JPanel(new GridLayout(6, 5));
 
@@ -116,18 +115,14 @@ public class WordleGameFrame extends JFrame
                 if (Character.isAlphabetic(character))
                 {
                     controller.addLetter(String.valueOf(e.getKeyChar()));
-                    //requestFocus();
                 }
                 else if (character == KeyEvent.VK_BACK_SPACE)
                 {
                     controller.backspace();
-                    //requestFocus();
-
                 }
                 else if (character == KeyEvent.VK_ENTER)
                 {
                     controller.enterGuess();
-                    //requestFocus();
                 }
             }
 
@@ -160,4 +155,15 @@ public class WordleGameFrame extends JFrame
         controller.backspace();
         requestFocus();
     }
+
+    /*@Override
+    public synchronized void addWindowStateListener(WindowStateListener l)
+    {
+        super.addWindowStateListener(l);
+        message = controller.closeIfDone();
+        if (message != null)
+        {
+            setVisible(false);
+        }
+    }*/
 }

@@ -2,32 +2,19 @@ package cohen.wordle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class WordleController
 {
     private final WordleGame wordleGame;
-    private final WordleDictionary dictionary;
-    private final JButton enter;
-    private final JButton backspace;
-    private JLabel[][] letters;
-    private JButton[] keyboardRow1;
-    private JButton[] keyboardRow2;
-    private JButton[] keyboardRow3;
-    private int nextEmpty = 0;
+    private final JLabel[][] letters;
+    private int charsTyped = 0;
+    private int rowCount = 0;
+    private StringBuilder currentGuess = new StringBuilder(5);
 
-    public WordleController(WordleGame wordleGame, WordleDictionary dictionary, JLabel[][] letters,
-                            JButton[] keyboardRow1, JButton[] keyboardRow2, JButton[] keyboardRow3,
-                            JButton enter, JButton backspace)
+    public WordleController(WordleGame wordleGame, JLabel[][] letters)
     {
         this.wordleGame = wordleGame;
-        this.dictionary = dictionary;
         this.letters = letters;
-        this.keyboardRow1 = keyboardRow1;
-        this.keyboardRow2 = keyboardRow2;
-        this.keyboardRow3 = keyboardRow3;
-        this.enter = enter;
-        this.backspace = backspace;
     }
 
     /*2d array of jlabels
@@ -41,61 +28,77 @@ public class WordleController
 
     public void addLetter(String letter)
     {
-        if ((fullWord(nextEmpty) && wordleGame.getGuesses() == nextEmpty / 5)
-                || !fullWord(nextEmpty))
+        if (charsTyped < 5 && !wordleGame.gameIsWon())
         {
-            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
-            letters[row][nextEmpty % 5].setText(letter.toUpperCase());
-            nextEmpty++;
+            charsTyped++;
+            letters[rowCount][charsTyped - 1].setText(letter.toUpperCase());
+            currentGuess.append(letter);
         }
     }
 
     public void enterGuess()
     {
-        if (fullWord(nextEmpty) && wordleGame.getGuesses() < nextEmpty / 5)
+        if (currentGuess.length() == 5)
         {
-            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
-            StringBuilder guess = new StringBuilder();
-
-            for (int i = 0; i < 5; i++)
-            {
-                guess.append(letters[row][i].getText());
-            }
-
-            String word = guess.toString();
+            String word = currentGuess.toString();
             CharStatus[] results = wordleGame.guess(word);
 
             for (int i = 0; i < 5; i++)
             {
                 if (results[i] == CharStatus.NotFound)
                 {
-                    letters[row][i].setBackground(Color.LIGHT_GRAY);
+                    letters[rowCount][i].setBackground(Color.LIGHT_GRAY);
+                    letters[rowCount][i].setOpaque(true);
                 }
                 else if (results[i] == CharStatus.WrongPlace)
                 {
-                    letters[row][i].setBackground(Color.ORANGE);
+                    letters[rowCount][i].setBackground(Color.ORANGE);
+                    letters[rowCount][i].setOpaque(true);
                 }
                 else
                 {
-                    letters[row][i].setBackground(Color.green);
+                    letters[rowCount][i].setBackground(Color.green);
+                    letters[rowCount][i].setOpaque(true);
                 }
             }
+
+            rowCount++;
+            charsTyped = 0;
+            currentGuess = new StringBuilder(5);
         }
     }
 
     public void backspace()
     {
-        if ((fullWord(nextEmpty) && wordleGame.getGuesses() != nextEmpty / 5)
-                || !fullWord(nextEmpty) && nextEmpty != 0)
+        if (wordBeforeGuess() || (currentGuess.length() < 5 && charsTyped > 0))
         {
-            int row = (nextEmpty < 30) ? nextEmpty / 5 : 5;
-            letters[row][(nextEmpty - 1) % 5].setText("");
-            nextEmpty--;
+            letters[rowCount][charsTyped - 1].setText("");
+            currentGuess.deleteCharAt(charsTyped - 1);
+            charsTyped--;
         }
+
     }
 
-    private boolean fullWord(int next)
+    private boolean wordBeforeGuess()
     {
-        return List.of(5, 10, 15, 20, 25, 30).contains(next);
+        return currentGuess.length() == 5 && rowCount == wordleGame.getGuesses();
     }
+
+    /*public String closeIfDone()
+    {
+        String message = null;
+        if (wordleGame.gameIsWon() && (rowCount ))
+        {
+            message = "Congratulations, you won - that was fast!";
+        }
+        else if (nextEmpty == 30 && wordleGame.getGuesses() == 6 && !wordleGame.gameIsWon())
+        {
+            message = "Maybe you will win next time...";
+        }
+        else if (nextEmpty == 30 && wordleGame.getGuesses() == 6 && wordleGame.gameIsWon())
+        {
+            message = "Congratulations, you won just in time!";
+        }
+        return message;
+    }*/
 }
