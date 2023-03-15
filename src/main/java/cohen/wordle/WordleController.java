@@ -17,15 +17,6 @@ public class WordleController
         this.letters = letters;
     }
 
-    /*2d array of jlabels
-        arranged in a jpanel with grid layout
-        jbuttons - 1 per letter, enter, backspace
-        handle "not in word list"
-        color code guess, dn need to color keyboard
-        6 guesses (5 letter words)
-        handle on-screen keyboard + keys
-        * */
-
     public void addLetter(String letter)
     {
         if (charsTyped < 5 && !wordleGame.gameIsWon())

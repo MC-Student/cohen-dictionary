@@ -9,8 +9,8 @@ import static cohen.wordle.CharStatus.Correct;
 public class WordleGame
 {
     private final CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
-    private String actualWord;
-    private ArrayList<String> chooseFrom;
+    private final String actualWord;
+    private final ArrayList<String> chooseFrom;
     private int guesses;
     private boolean won;
 
