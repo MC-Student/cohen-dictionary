@@ -79,11 +79,6 @@ public class WordleController
         }
     }
 
-    public String getGuess(StringBuilder currentGuess)
-    {
-        return currentGuess.toString().toUpperCase();
-    }
-
     private boolean wordBeforeGuess()
     {
         return currentGuess.length() == 5 && rowCount == wordleGame.getGuesses();

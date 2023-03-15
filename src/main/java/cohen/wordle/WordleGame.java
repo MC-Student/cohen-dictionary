@@ -8,8 +8,8 @@ import static cohen.wordle.CharStatus.Correct;
 
 public class WordleGame
 {
+    final String actualWord;
     private final CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
-    private final String actualWord;
     private final ArrayList<String> chooseFrom;
     private int guesses;
     private boolean won;
@@ -84,9 +84,4 @@ public class WordleGame
     {
         return chooseFrom;
     }
-
-    /*public String getActualWord()
-    {
-        return actualWord;
-    }*/
 }
