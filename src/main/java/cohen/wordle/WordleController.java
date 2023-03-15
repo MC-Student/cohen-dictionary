@@ -23,7 +23,7 @@ public class WordleController
         {
             charsTyped++;
             letters[rowCount][charsTyped - 1].setText(letter.toUpperCase());
-            currentGuess.append(letter);
+            currentGuess.append(letter.toUpperCase());
         }
     }
 
