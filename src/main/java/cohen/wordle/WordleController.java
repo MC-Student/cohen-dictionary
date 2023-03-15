@@ -29,9 +29,8 @@ public class WordleController
 
     public void enterGuess()
     {
-        if (!currentGuess.toString().equals("") && currentGuess.length() == 5)
+        if (currentGuess.length() == 5)
         {
-
             String word = currentGuess.toString().toUpperCase();
 
             if (wordleGame.getWordleWords().contains(word))
