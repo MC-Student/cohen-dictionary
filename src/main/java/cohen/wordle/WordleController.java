@@ -78,7 +78,11 @@ public class WordleController
             currentGuess.deleteCharAt(charsTyped - 1);
             charsTyped--;
         }
+    }
 
+    public String getGuess(StringBuilder currentGuess)
+    {
+        return currentGuess.toString();
     }
 
     private boolean wordBeforeGuess()
