@@ -3,10 +3,12 @@ package cohen.wordle;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static cohen.wordle.CharStatus.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class WordleControllerTest
 {
@@ -119,56 +121,67 @@ class WordleControllerTest
         verify(guess).append("u");
     }
 
-    /*@Test
-    public void enterGuess()
+    @Test
+    public void enterValidGuess()
     {
         //given
         WordleController controller = new WordleController(wordleGame, letters);
-        StringBuilder mGuess = mock();
-        StringBuilder guess = new StringBuilder("TAUPE");
-        doReturn(guess).when(controller).getGuess(mGuess);
+        CharStatus[] results = {NotFound, NotFound, NotFound, WrongPlace, Correct};
+        String guess = "TAUPE";
+        ArrayList<String> dictionary = new ArrayList<>();
+        dictionary.add("TAUPE");
+
+        doReturn(dictionary).when(wordleGame).getWordleWords();
+        doReturn(results).when(wordleGame).guess(guess);
 
         //when
-        letters
+        controller.addLetter("t");
+        controller.addLetter("a");
+        controller.addLetter("u");
+        controller.addLetter("p");
+        controller.addLetter("e");
 
-        if (!currentGuess.toString().equals("") && currentGuess.length() == 5)
-        {
+        controller.enterGuess();
 
-            String word = currentGuess.toString().toUpperCase();
+        //then
 
-            if (wordleGame.getWordleWords().contains(word))
-            {
-                CharStatus[] results = wordleGame.guess(word);
+        assertEquals(Color.LIGHT_GRAY, letters[0][0].getBackground());
+        verify(letters[0][0]).setBackground(Color.LIGHT_GRAY);
+        verify(letters[0][0]).setOpaque(true);
 
-                for (int i = 0; i < results.length; i++)
-                {
-                    if (results[i] == CharStatus.NotFound)
-                    {
-                        letters[rowCount][i].setBackground(Color.LIGHT_GRAY);
-                        letters[rowCount][i].setOpaque(true);
-                    }
-                    else if (results[i] == CharStatus.WrongPlace)
-                    {
-                        letters[rowCount][i].setBackground(Color.ORANGE);
-                        letters[rowCount][i].setOpaque(true);
-                    }
-                    else
-                    {
-                        letters[rowCount][i].setBackground(Color.green);
-                        letters[rowCount][i].setOpaque(true);
-                    }
-                }
+        assertFalse(wordleGame.gameIsWon());
+    }
 
-                rowCount++;
-                charsTyped = 0;
-                currentGuess = new StringBuilder(5);
-            }
+    @Test
+    public void enterInvalidGuess()
+    {
+        //given
+        WordleController controller = new WordleController(wordleGame, letters);
+        WordleController mController = mock();
+        String guess = "LARGY";
+        ArrayList<String> dictionary = new ArrayList<>();
+        dictionary.add("TAUPE");
+        doReturn(dictionary).when(wordleGame).getWordleWords();
+        doReturn("LARGY").when(mController).getGuess(new StringBuilder(guess));
 
-            else
-            {
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "Word not in dictionary, please try a different word");
-            }
-        }
-    }*/
+        //when
+        mController.addLetter("l");
+        mController.addLetter("a");
+        mController.addLetter("r");
+        mController.addLetter("g");
+        mController.addLetter("y");
+
+        mController.enterGuess();
+
+        //then
+        verify(letters[0][0]).setText("L");
+        verify(letters[0][1]).setText("A");
+        verify(letters[0][2]).setText("R");
+        verify(letters[0][3]).setText("G");
+        verify(letters[0][4]).setText("Y");
+        verify(mController).enterGuess();
+
+        verifyNoMoreInteractions(wordleGame);
+        assertFalse(wordleGame.gameIsWon());
+    }
 }

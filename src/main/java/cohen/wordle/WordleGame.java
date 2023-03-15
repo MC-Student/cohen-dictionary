@@ -84,4 +84,9 @@ public class WordleGame
     {
         return chooseFrom;
     }
+
+    /*public String getActualWord()
+    {
+        return actualWord;
+    }*/
 }

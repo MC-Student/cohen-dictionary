@@ -82,7 +82,7 @@ public class WordleController
 
     public String getGuess(StringBuilder currentGuess)
     {
-        return currentGuess.toString();
+        return currentGuess.toString().toUpperCase();
     }
 
     private boolean wordBeforeGuess()
