@@ -8,12 +8,10 @@ import static cohen.wordle.CharStatus.Correct;
 
 public class WordleGame
 {
-    private final Random random = new Random();
     private final CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
     private String actualWord;
     private ArrayList<String> chooseFrom;
     private int guesses;
-    private CharStatus[] results;
     private boolean won;
 
     public WordleGame(WordleDictionary dictionary)
@@ -29,6 +27,7 @@ public class WordleGame
             }
         }
 
+        Random random = new Random();
         int picked = random.nextInt(chooseFrom.size());
         this.actualWord = chooseFrom.get(picked);
         System.out.println(actualWord);
@@ -43,7 +42,7 @@ public class WordleGame
     public CharStatus[] guess(String guess)
     {
         guess = guess.toUpperCase();
-        results = new CharStatus[]
+        CharStatus[] results = new CharStatus[]
                 {
                         CharStatus.NotFound,
                         CharStatus.NotFound,
@@ -79,5 +78,10 @@ public class WordleGame
     public boolean gameIsWon()
     {
         return won;
+    }
+
+    public ArrayList<String> getWordleWords()
+    {
+        return chooseFrom;
     }
 }

@@ -157,14 +157,9 @@ public class WordleGameFrame extends JFrame
         requestFocus();
     }
 
-    /*@Override
-    public synchronized void addWindowStateListener(WindowStateListener l)
+    public String checkStatusForMessage()
     {
-        super.addWindowStateListener(l);
-        message = controller.closeIfDone();
-        if (message != null)
-        {
-            setVisible(false);
-        }
-    }*/
+        return controller.getClosingMessage();
+    }
+
 }

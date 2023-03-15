@@ -38,33 +38,43 @@ public class WordleController
 
     public void enterGuess()
     {
-        if (currentGuess.length() == 5)
+        if (!currentGuess.toString().equals("") && currentGuess.length() == 5)
         {
-            String word = currentGuess.toString();
-            CharStatus[] results = wordleGame.guess(word);
 
-            for (int i = 0; i < results.length; i++)
+            String word = currentGuess.toString().toUpperCase();
+
+            if (wordleGame.getWordleWords().contains(word))
             {
-                if (results[i] == CharStatus.NotFound)
+                CharStatus[] results = wordleGame.guess(word);
+
+                for (int i = 0; i < results.length; i++)
                 {
-                    letters[rowCount][i].setBackground(Color.LIGHT_GRAY);
-                    letters[rowCount][i].setOpaque(true);
+                    if (results[i] == CharStatus.NotFound)
+                    {
+                        letters[rowCount][i].setBackground(Color.LIGHT_GRAY);
+                        letters[rowCount][i].setOpaque(true);
+                    }
+                    else if (results[i] == CharStatus.WrongPlace)
+                    {
+                        letters[rowCount][i].setBackground(Color.ORANGE);
+                        letters[rowCount][i].setOpaque(true);
+                    }
+                    else
+                    {
+                        letters[rowCount][i].setBackground(Color.green);
+                        letters[rowCount][i].setOpaque(true);
+                    }
                 }
-                else if (results[i] == CharStatus.WrongPlace)
-                {
-                    letters[rowCount][i].setBackground(Color.ORANGE);
-                    letters[rowCount][i].setOpaque(true);
-                }
-                else
-                {
-                    letters[rowCount][i].setBackground(Color.green);
-                    letters[rowCount][i].setOpaque(true);
-                }
+
+                rowCount++;
+                charsTyped = 0;
+                currentGuess = new StringBuilder(5);
             }
 
-            rowCount++;
-            charsTyped = 0;
-            currentGuess = new StringBuilder(5);
+            else
+            {
+                JOptionPane.showMessageDialog(new JFrame(), "Word not in dictionary, please try a different word");
+            }
         }
     }
 
@@ -84,21 +94,26 @@ public class WordleController
         return currentGuess.length() == 5 && rowCount == wordleGame.getGuesses();
     }
 
-    /*public String closeIfDone()
+    public String getClosingMessage()
     {
-        String message = null;
-        if (wordleGame.gameIsWon() && (rowCount ))
+        String message;
+
+        if (wordleGame.gameIsWon() && (rowCount < 5))
         {
             message = "Congratulations, you won - that was fast!";
         }
-        else if (nextEmpty == 30 && wordleGame.getGuesses() == 6 && !wordleGame.gameIsWon())
-        {
-            message = "Maybe you will win next time...";
-        }
-        else if (nextEmpty == 30 && wordleGame.getGuesses() == 6 && wordleGame.gameIsWon())
+        else if (wordleGame.getGuesses() == 6 && wordleGame.gameIsWon())
         {
             message = "Congratulations, you won just in time!";
         }
+        else if (wordleGame.getGuesses() == 6 && !wordleGame.gameIsWon())
+        {
+            message = "Maybe you will win next time...";
+        }
+        else
+        {
+            message = "n/a";
+        }
         return message;
-    }*/
+    }
 }
