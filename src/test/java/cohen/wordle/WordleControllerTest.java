@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static cohen.wordle.CharStatus.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 class WordleControllerTest
@@ -23,8 +23,6 @@ class WordleControllerTest
                     {mock(), mock(), mock(), mock(), mock()}
             };
 
-    StringBuilder guess = mock();
-
     @Test
     public void addLetter()
     {
@@ -33,19 +31,13 @@ class WordleControllerTest
 
         //when
         controller.addLetter("t");
-        guess.append("t");
         controller.addLetter("a");
-        guess.append("a");
         controller.addLetter("u");
-        guess.append("u");
 
         //then
         verify(letters[0][0]).setText("T");
-        verify(guess).append("t");
         verify(letters[0][1]).setText("A");
-        verify(guess).append("a");
         verify(letters[0][2]).setText("U");
-        verify(guess).append("u");
     }
 
     @Test
@@ -58,7 +50,7 @@ class WordleControllerTest
         controller.backspace();
 
         //then
-        assertNull(letters[0][0].getText());
+        verifyNoInteractions(wordleGame);
     }
 
     @Test
@@ -69,24 +61,14 @@ class WordleControllerTest
 
         //when
         controller.addLetter("t");
-        guess.append("t");
-
         controller.backspace();
-        guess.deleteCharAt(0);
-
         controller.addLetter("s");
-        guess.append("s");
 
 
         //then
         verify(letters[0][0]).setText("T");
-        verify(guess).append("t");
-
         verify(letters[0][0]).setText("");
-        verify(guess).deleteCharAt(0);
-
         verify(letters[0][0]).setText("S");
-        verify(guess).append("s");
     }
 
     @Test
@@ -97,35 +79,23 @@ class WordleControllerTest
 
         //when
         controller.addLetter("t");
-        guess.append("t");
         controller.addLetter("a");
-        guess.append("a");
-
         controller.backspace();
-        guess.deleteCharAt(1);
-
         controller.addLetter("u");
-        guess.append("u");
-
 
         //then
         verify(letters[0][0]).setText("T");
-        verify(guess).append("t");
         verify(letters[0][1]).setText("A");
-        verify(guess).append("a");
-
         verify(letters[0][1]).setText("");
-        verify(guess).deleteCharAt(1);
-
         verify(letters[0][1]).setText("U");
-        verify(guess).append("u");
     }
 
     @Test
     public void enterValidGuess()
     {
         //given
-        WordleController controller = new WordleController(wordleGame, letters);
+        WordleGame game = mock();
+        WordleController controller = new WordleController(game, letters);
         CharStatus[] results = {NotFound, NotFound, NotFound, WrongPlace, Correct};
         String guess = "TAUPE";
         ArrayList<String> dictionary = new ArrayList<>();
@@ -144,12 +114,16 @@ class WordleControllerTest
         controller.enterGuess();
 
         //then
-
-        assertEquals(Color.LIGHT_GRAY, letters[0][0].getBackground());
         verify(letters[0][0]).setBackground(Color.LIGHT_GRAY);
         verify(letters[0][0]).setOpaque(true);
-
-        assertFalse(wordleGame.gameIsWon());
+        verify(letters[0][1]).setBackground(Color.LIGHT_GRAY);
+        verify(letters[0][1]).setOpaque(true);
+        verify(letters[0][2]).setBackground(Color.LIGHT_GRAY);
+        verify(letters[0][2]).setOpaque(true);
+        verify(letters[0][3]).setBackground(Color.ORANGE);
+        verify(letters[0][3]).setOpaque(true);
+        verify(letters[0][4]).setBackground(Color.green);
+        verify(letters[0][4]).setOpaque(true);
     }
 
     @Test
@@ -171,15 +145,12 @@ class WordleControllerTest
         mController.addLetter("g");
         mController.addLetter("y");
 
-        mController.enterGuess();
-
         //then
         verify(letters[0][0]).setText("L");
         verify(letters[0][1]).setText("A");
         verify(letters[0][2]).setText("R");
         verify(letters[0][3]).setText("G");
         verify(letters[0][4]).setText("Y");
-        verify(mController).enterGuess();
 
         verifyNoMoreInteractions(wordleGame);
         assertFalse(wordleGame.gameIsWon());
