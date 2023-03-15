@@ -73,7 +73,8 @@ public class WordleController
 
             else
             {
-                JOptionPane.showMessageDialog(new JFrame(), "Word not in dictionary, please try a different word");
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Word not in dictionary, please try a different word");
             }
         }
     }
