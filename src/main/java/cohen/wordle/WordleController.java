@@ -7,9 +7,9 @@ public class WordleController
 {
     private final WordleGame wordleGame;
     private final JLabel[][] letters;
+    StringBuilder currentGuess = new StringBuilder(5);
     private int charsTyped = 0;
     private int rowCount = 0;
-    private StringBuilder currentGuess = new StringBuilder(5);
 
     public WordleController(WordleGame wordleGame, JLabel[][] letters)
     {

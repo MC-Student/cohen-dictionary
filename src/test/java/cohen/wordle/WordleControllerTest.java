@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static cohen.wordle.CharStatus.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
@@ -69,6 +70,8 @@ class WordleControllerTest
         verify(letters[0][0]).setText("T");
         verify(letters[0][0]).setText("");
         verify(letters[0][0]).setText("S");
+
+        assertEquals(1, controller.currentGuess.length());
     }
 
     @Test
@@ -88,6 +91,8 @@ class WordleControllerTest
         verify(letters[0][1]).setText("A");
         verify(letters[0][1]).setText("");
         verify(letters[0][1]).setText("U");
+
+        assertEquals(2, controller.currentGuess.length());
     }
 
     @Test
@@ -124,6 +129,8 @@ class WordleControllerTest
         verify(letters[0][3]).setOpaque(true);
         verify(letters[0][4]).setBackground(Color.green);
         verify(letters[0][4]).setOpaque(true);
+
+        assertEquals(0, controller.currentGuess.length());
     }
 
     @Test
