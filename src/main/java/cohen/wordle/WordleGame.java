@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import static cohen.wordle.CharStatus.Correct;
+
 public class WordleGame
 {
-    private final Random random = new Random();
-    private String actualWord;
-    private ArrayList<String> chooseFrom;
+    final String actualWord;
+    private final CharStatus[] correct = {Correct, Correct, Correct, Correct, Correct};
+    private final ArrayList<String> chooseFrom;
+    private int guesses;
+    private boolean won;
 
     public WordleGame(WordleDictionary dictionary)
     {
         chooseFrom = new ArrayList<>();
+        guesses = 0;
 
         for (String word : dictionary.getList())
         {
@@ -22,14 +27,16 @@ public class WordleGame
             }
         }
 
+        Random random = new Random();
         int picked = random.nextInt(chooseFrom.size());
         this.actualWord = chooseFrom.get(picked);
+        System.out.println(actualWord);
 
     }
 
-    public String getActualWord()
+    public int getGuesses()
     {
-        return actualWord;
+        return guesses;
     }
 
     public CharStatus[] guess(String guess)
@@ -62,12 +69,19 @@ public class WordleGame
             }
         }
 
-        else
-        {
-            System.out.println("Guess Invalid");
-        }
-
+        guesses++;
         System.out.println(Arrays.toString(results));
+        won = (Arrays.equals(results, correct));
         return results;
+    }
+
+    public boolean gameIsWon()
+    {
+        return won;
+    }
+
+    public ArrayList<String> getWordleWords()
+    {
+        return chooseFrom;
     }
 }
